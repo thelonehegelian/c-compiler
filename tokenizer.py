@@ -1,5 +1,8 @@
 from enum import Enum
 
+
+
+
 class TokenType(Enum):
     # single-character tokens.
     LEFT_PAREN = "("
@@ -48,6 +51,21 @@ class TokenType(Enum):
     WHILE = "while"
 
     EOF = "eof"
+
+KEYWORDS = {
+    "and": TokenType.AND,
+    "or": TokenType.OR,
+    "else": TokenType.ELSE,
+    "false": TokenType.FALSE,
+    "true": TokenType.TRUE,
+    "func": TokenType.FUNC,
+    "for": TokenType.FOR,
+    "if": TokenType.IF,
+    "return": TokenType.RETURN,
+    "while": TokenType.WHILE,
+    "null": TokenType.NIL    
+}
+
 
 class Error(Exception):
     
@@ -255,11 +273,16 @@ class Scanner:
         self.add_token(TokenType.FOR)
     
     def handle_identifier(self):
-        self.peek().isalpha() and self.advance()
+        self.peek().isalnum() or self.peek() == '_' and self.advance()
         # identifier cannot be a reserved keyword
         text = self.source[self.start:self.current]
         token_type = TokenType.IDENTIFIER
         if text in KEYWORDS:
+            # THROW ERROR
+            print("error")
+        else:
+            self.add_token(token_type)
+        
             
         
         
