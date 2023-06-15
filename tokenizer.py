@@ -34,36 +34,50 @@ class TokenType(Enum):
     STRING = "STRING"
     NUMBER = "NUMBER"
 
-
-    # keywords.
-    AND = "&&"
-    OR = "||"
-    ELSE = "else"
-    FALSE = "false"
-    TRUE = "true"
-    FUNC = "func"
-    FOR = "for"
-    IF = "if"
-    # @audit probably error here
-    NIL = "null"
-    RETURN = "return"
-    # there is no var in C language.
-    WHILE = "while"
-
     EOF = "eof"
 
+# @todo move to the TokenType class
 KEYWORDS = {
     "&&": TokenType.AND,
     "||": TokenType.OR,
-    "else": TokenType.ELSE,
     "false": TokenType.FALSE,
     "true": TokenType.TRUE,
     "func": TokenType.FUNC,
+    "null": TokenType.NIL,
+    
+    "auto": TokenType.AUTO,
+    "break": TokenType.BREAK,
+    "case": TokenType.CASE,
+    "char": TokenType.CHAR,
+    "const": TokenType.CONST,
+    "continue": TokenType.CONTINUE,
+    "default": TokenType.DEFAULT,
+    "do": TokenType.DO,
+    "double": TokenType.DOUBLE,
+    "else": TokenType.ELSE,
+    "enum": TokenType.ENUM,
+    "extern": TokenType.EXTERN,
+    "float": TokenType.FLOAT,
     "for": TokenType.FOR,
+    "goto": TokenType.GOTO,
     "if": TokenType.IF,
+    "int": TokenType.INT,
+    "long": TokenType.LONG,
+    "register": TokenType.REGISTER,
     "return": TokenType.RETURN,
-    "while": TokenType.WHILE,
-    "null": TokenType.NIL    
+    "short": TokenType.SHORT,
+    "signed": TokenType.SIGNED,
+    "sizeof": TokenType.SIZEOF,
+    "static": TokenType.STATIC,
+    "struct": TokenType.STRUCT,
+    "switch": TokenType.SWITCH,
+    "typedef": TokenType.TYPEDEF,
+    "union": TokenType.UNION,
+    "unsigned": TokenType.UNSIGNED,
+    "void": TokenType.VOID,
+    "volatile": TokenType.VOLATILE,
+    "while": TokenType.WHILE
+
 }
 
 
@@ -164,28 +178,14 @@ class Scanner:
         elif c == '\n':
             # we are at a new line, so we increment the line counter
             self.line += 1
-            self.advance()
-        
-        # reserve keywords and identifiers
-        # @audit is this method satisfactory? or should we use a hashmap with find()?
-        elif c == '&':
-            self.match('&') and self.add_token(TokenType.AND)
-        elif c == '|':
-            self.match('|') and self.add_token(TokenType.OR)
-        elif c == 'f':
-            self.match('or') and self.add_token(TokenType.FOR)
-        elif c == 'i':
-            self.match('f') and self.add_token(TokenType.IF)
-        elif c == 'e':
-            self.match('lse') and self.add_token(TokenType.ELSE)
-        elif c == 'n':
-            self.match('ull') and self.add_token(TokenType.NIL)
-        elif c == 'r':
-            self.match('eturn') and self.add_token(TokenType.RETURN)
-        elif c == 'w':
-            self.match('hile') and self.add_token(TokenType.WHILE)
-        elif c == 't':
-            self.match('rue') and self.add_token(TokenType.TRUE)
+            self.advance()        
+        elif c.isalpha():
+            # @audit is this method satisfactory? or should we use a hashmap with find()?
+            self.handle_identifier()
+        elif c.isdigit():
+            self.handle_number_literal()
+        elif c == '"':
+            self.handle_string_literal()
         # @todo there should be a main function handler
         # @todo there should be a function handler
         
@@ -232,8 +232,6 @@ class Scanner:
     
     # handlers for literals and keywords
     def handle_string_literal(self):
-        # @todo get the value of the string literal
-        value = ""
         # find the end of the string double quote or single quote        
         while self.peek() != '"' and not self.is_at_end():
 
