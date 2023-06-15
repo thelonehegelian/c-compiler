@@ -34,6 +34,7 @@ class TokenType(Enum):
 
     # keywords.
     AND = "&&"
+    OR = "||"
     ELSE = "else"
     FALSE = "false"
     TRUE = "true"
@@ -42,7 +43,6 @@ class TokenType(Enum):
     IF = "if"
     # @audit probably error here
     NIL = "null"
-    OR = "||"
     RETURN = "return"
     # there is no var in C language.
     WHILE = "while"
@@ -145,6 +145,32 @@ class Scanner:
             # we are at a new line, so we increment the line counter
             self.line += 1
             self.advance()
+        
+        # reserve keywords and identifiers
+        # @audit is this method satisfactory? or should we use a hashmap with find()?
+        elif c == '&':
+            self.match('&') and self.add_token(TokenType.AND)
+        elif c == '|':
+            self.match('|') and self.add_token(TokenType.OR)
+        elif c == 'f':
+            self.match('or') and self.add_token(TokenType.FOR)
+        elif c == 'i':
+            self.match('f') and self.add_token(TokenType.IF)
+        elif c == 'e':
+            self.match('lse') and self.add_token(TokenType.ELSE)
+        elif c == 'n':
+            self.match('ull') and self.add_token(TokenType.NIL)
+        elif c == 'r':
+            self.match('eturn') and self.add_token(TokenType.RETURN)
+        elif c == 'w':
+            self.match('hile') and self.add_token(TokenType.WHILE)
+        elif c == 't':
+            self.match('rue') and self.add_token(TokenType.TRUE)
+        # @todo there should be a main function handler
+        # @todo there should be a function handler
+        
+            
+            
         else:
             print("error")
             
@@ -183,10 +209,54 @@ class Scanner:
         if self.is_at_end():
             return '\0'
         return self.source[self.current]
+    
+    # handlers for literals and keywords
+    def handle_string_literal(self):
+        # @todo get the value of the string literal
+        value = ""
+        # find the end of the string double quote or single quote        
+        while self.peek() != '"' and not self.is_at_end():
+
+            # we keep advancing until we find the end of the string
+            # @note in C language, strings can span multiple lines using double quotes
+            # so \n should not really be a problem. will have to fix this later
+            if self.peek() == '\n':
+                self.line += 1
+            value += self.advance()
         
-# create 
-# a sample source code
-src = "!;()-"
+        # unterminated string
+        if self.is_at_end():
+            Error.error(self, self.line, "Unterminated string.")
+        
+        # trim the surrounding quotes and token
+        value = value[1:-1]
+        self.add_token(TokenType.STRING, value)
+        
+    # @todo error handling
+    def handle_number_literal(self):
+        number = ""
+        # trailing dots are not allowed
+        # we keep moving until we find a non-digit character
+        while self.peek().isdigit():
+            number += self.advance()
+        # look for a fractional part
+        if self.peek() == '.':
+            # add the dot to the number string
+            number += self.advance()
+            # we keep moving until we find a non-digit character
+            while self.peek().isdigit():
+                number += self.advance()
+        self.add_token(TokenType.NUMBER, float(number))
+        
+    def handle_for_keyword(self):
+        self.match('o') and self.match('r')
+        self.add_token(TokenType.FOR)
+    
+        
+        
+# a sample C source code
+# @todo fix problems with comment parsing
+src ="+"
 
 # create a scanner object
 scanner = Scanner(src)
