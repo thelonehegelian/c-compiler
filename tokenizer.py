@@ -53,8 +53,8 @@ class TokenType(Enum):
     EOF = "eof"
 
 KEYWORDS = {
-    "and": TokenType.AND,
-    "or": TokenType.OR,
+    "&&": TokenType.AND,
+    "||": TokenType.OR,
     "else": TokenType.ELSE,
     "false": TokenType.FALSE,
     "true": TokenType.TRUE,
@@ -247,9 +247,10 @@ class Scanner:
         # unterminated string
         if self.is_at_end():
             Error.error(self, self.line, "Unterminated string.")
+            return
         
-        # trim the surrounding quotes and token
-        value = value[1:-1]
+        self.advance()
+        value = self.source[self.start + 1:self.current - 1]
         self.add_token(TokenType.STRING, value)
         
     # @todo error handling
