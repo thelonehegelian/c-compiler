@@ -50,14 +50,16 @@ class TokenType(Enum):
     EOF = "eof"
 
 class Error(Exception):
+    
     @staticmethod
-    def error(self, line, message):
-        self.report(line, "", message)
+    def error(line, message):
+        Error.report(line, "", message)
+        Error.had_error = True
 
     @staticmethod
     def report(line, where, message):
         print("[line {}] Error {}: {}".format(line, where, message))
-        had_error = True
+        Error.had_error = True
 
 class Token:
     # @todo see notes on what is a literal
@@ -252,6 +254,13 @@ class Scanner:
         self.match('o') and self.match('r')
         self.add_token(TokenType.FOR)
     
+    def handle_identifier(self):
+        self.peek().isalpha() and self.advance()
+        # identifier cannot be a reserved keyword
+        text = self.source[self.start:self.current]
+        token_type = TokenType.IDENTIFIER
+        if text in KEYWORDS:
+            
         
         
 # a sample C source code
