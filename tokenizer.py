@@ -117,14 +117,34 @@ class Scanner:
             self.add_token(TokenType.COMMA)
         elif c == '.':
             self.add_token(TokenType.DOT)
+        elif c == ';':
+            self.add_token(TokenType.SEMICOLON)
+        # operators
         elif c == '-':
             self.add_token(TokenType.MINUS)
         elif c == '+':
             self.add_token(TokenType.PLUS)
-        elif c == ';':
-            self.add_token(TokenType.SEMICOLON)
         elif c == '*':
-            self.add_token(TokenType.STAR)  
+            self.add_token(TokenType.STAR)
+        
+        # matches the bang, if the next character is an equal sign, then it is a bang equal else it is just a bang
+        elif c == '!':
+            self.match('=') and self.add_token(TokenType.BANG_EQUAL) or self.add_token(TokenType.BANG)
+        elif c == '=':
+            self.match('=') and self.add_token(TokenType.EQUAL_EQUAL) or self.add_token(TokenType.EQUAL)
+        elif c == '<':
+            self.match('=') and self.add_token(TokenType.LESS_EQUAL) or self.add_token(TokenType.LESS)
+        elif c == '>':
+            self.match('=') and self.add_token(TokenType.GREATER_EQUAL) or self.add_token(TokenType.GREATER)
+        elif c == '/':
+            self.handle_slash()      
+        # handle whitespaces
+        elif c == ' ' or c == '\r' or c == '\t':
+            self.advance()
+        elif c == '\n':
+            # we are at a new line, so we increment the line counter
+            self.line += 1
+            self.advance()
         else:
             print("error")
             
@@ -134,11 +154,39 @@ class Scanner:
         # @todo rewrite
         self.current += 1
         return self.source[self.current - 1]
-    
-    
 
-# create a sample source code
-src = "(){}+-"
+    # check if next character is the expected one
+    def match(self, expected):
+        # if we are at the end of the source code, return false
+        if self.is_at_end():
+            return False
+        # if the next character is not the expected one, return false
+        if self.source[self.current]  != expected:
+            return False
+        # otherwise, advance and return true
+        self.current += 1
+        return True
+    
+    def handle_slash(self):
+        # if the next chacter is a slash, then it is a comment
+        # a comment goes to the end of the line
+        # @note this is not the case with /* */ comments
+        if self.match('/'):
+            print("ignoring comment...")
+            while self.peek() != '\n' and not self.is_at_end():
+                self.advance()
+        else:
+
+            self.add_token(TokenType.SLASH)
+    # peek looks at the next character without consuming it
+    def peek(self):
+        if self.is_at_end():
+            return '\0'
+        return self.source[self.current]
+        
+# create 
+# a sample source code
+src = "!;()-"
 
 # create a scanner object
 scanner = Scanner(src)
