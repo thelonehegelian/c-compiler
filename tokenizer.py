@@ -80,6 +80,22 @@ KEYWORDS = {
 
 }
 
+PREPROCESSOR_DIRECTIVES = {
+    "include": TokenType.INCLUDE,
+    "define": TokenType.DEFINE,
+    "undef": TokenType.UNDEF,
+    "if": TokenType.IF,
+    "ifdef": TokenType.IFDEF,
+    "ifndef": TokenType.IFNDEF,
+    "else": TokenType.ELSE,
+    "elif": TokenType.ELIF,
+    "endif": TokenType.ENDIF,
+    "line": TokenType.LINE,
+    "error": TokenType.ERROR,
+    "pragma": TokenType.PRAGMA
+}
+
+
 
 class Error(Exception):
     
@@ -232,6 +248,7 @@ class Scanner:
     
     # handlers for literals and keywords
     def handle_string_literal(self):
+        value = ""
         # find the end of the string double quote or single quote        
         while self.peek() != '"' and not self.is_at_end():
 
@@ -272,13 +289,15 @@ class Scanner:
         self.add_token(TokenType.FOR)
     
     def handle_identifier(self):
-        self.peek().isalnum() or self.peek() == '_' and self.advance()
+        while self.peek().isalnum() or self.peek() == '_':
+            self.advance()               
         # identifier cannot be a reserved keyword
         text = self.source[self.start:self.current]
         token_type = TokenType.IDENTIFIER
         if text in KEYWORDS:
-            # THROW ERROR
-            print("error")
+            # update the token type
+            # @note we can also generate a message here to warn the user that they are using a reserved keyword
+            token_type = KEYWORDS[text]
         else:
             self.add_token(token_type)
         
