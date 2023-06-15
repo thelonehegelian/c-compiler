@@ -95,6 +95,35 @@ PREPROCESSOR_DIRECTIVES = {
     "pragma": TokenType.PRAGMA
 }
 
+TYPES = {
+    "void": TokenType.VOID,
+    "char": TokenType.CHAR,
+    "short": TokenType.SHORT,
+    "int": TokenType.INT,
+    "long": TokenType.LONG,
+    "float": TokenType.FLOAT,
+    "double": TokenType.DOUBLE,
+    "signed": TokenType.SIGNED,
+    "unsigned": TokenType.UNSIGNED,
+    "bool": TokenType.BOOL,
+    "complex": TokenType.COMPLEX,
+    "imaginary": TokenType.IMAGINARY,
+    "size_t": TokenType.SIZE_T,
+    "ptrdiff_t": TokenType.PTRDIFF_T,
+    "wchar_t": TokenType.WCHAR_T,
+    "int8_t": TokenType.INT8_T,
+    "uint8_t": TokenType.UINT8_T,
+    "int16_t": TokenType.INT16_T,
+    "uint16_t": TokenType.UINT16_T,
+    "int32_t": TokenType.INT32_T,
+    "uint32_t": TokenType.UINT32_T,
+    "int64_t": TokenType.INT64_T,
+    "uint64_t": TokenType.UINT64_T,
+    "intptr_t": TokenType.INTPTR_T,
+    "uintptr_t": TokenType.UINTPTR_T,
+    "intmax_t": TokenType.INTMAX_T,
+    "uintmax_t": TokenType.UINTMAX_T
+}
 
 
 class Error(Exception):
