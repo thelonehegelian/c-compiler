@@ -1,5 +1,6 @@
-from enum import Enum, auto
+from enum import Enum
 
+# @todo this can be cleaned up a bit
 class TokenType(Enum):
     # single-character tokens.
     LEFT_PAREN = "("
@@ -74,36 +75,36 @@ class TokenType(Enum):
     VOLATILE = 59
     WHILE = 60
     
-    INCLUDE = auto()
-    DEFINE = auto()
-    UNDEF = auto()
-    IFDEF = auto()
-    IFNDEF = auto()
-    ELIF = auto()
-    ENDIF = auto()
-    LINE = auto()
-    ERROR = auto()
-    PRAGMA = auto()
+    INCLUDE = 61
+    DEFINE = 62
+    UNDEF = 63
+    IFDEF = 64
+    IFNDEF = 65
+    ELIF = 66
+    ENDIF = 67
+    LINE = 68
+    ERROR = 69
+    PRAGMA = 70
     
   
-    BOOL = auto()
-    COMPLEX = auto()
-    IMAGINARY = auto()
-    SIZE_T = auto()
-    PTRDIFF_T = auto()
-    WCHAR_T = auto()
-    INT8_T = auto()
-    UINT8_T = auto()
-    INT16_T = auto()
-    UINT16_T = auto()
-    INT32_T = auto()
-    UINT32_T = auto()
-    INT64_T = auto()
-    UINT64_T = auto()
-    INTPTR_T = auto()
-    UINTPTR_T = auto()
-    INTMAX_T = auto()
-    UINTMAX_T = auto()
+    BOOL = 71
+    COMPLEX = 72
+    IMAGINARY = 73
+    SIZE_T = 74
+    PTRDIFF_T = 75
+    WCHAR_T = 76
+    INT8_T = 77
+    UINT8_T = 78
+    INT16_T = 79
+    UINT16_T = 80
+    INT32_T = 81
+    UINT32_T = 82
+    INT64_T = 83
+    UINT64_T = 84
+    INTPTR_T = 85
+    UINTPTR_T = 86
+    INTMAX_T = 87
+    UINTMAX_T = 88
    
 # Types
 # @note can also be treated as keywords or even Types, but we are treating them as Identifiers for now.
@@ -310,9 +311,11 @@ class Scanner:
         elif c.isalpha():
             # @audit is this method satisfactory? or should we use a hashmap with find()?
             self.handle_identifier()
-
+        # @todo handle single quote literals
         elif c == '"':
             self.handle_string_literal()
+        elif c == '#':
+            self.handle_identifier()
         # @todo there should be a main function handler
         # @todo there should be a function handler
         else:
@@ -406,7 +409,9 @@ class Scanner:
         
 # a sample C source code
 # @todo fix problems with comment parsing
-src ="32 1234"
+src  = '#include <stdio.h>\n\nint main() {\n    int a = 5;\n    int b = 10;\n    int result = a + b;\n    printf("The result is: %d", result);\n    return 0;\n}'
+
+
 
 # create a scanner object
 scanner = Scanner(src)
@@ -414,6 +419,6 @@ scanner = Scanner(src)
 # scan the source code
 scanner.scan_tokens()
 
-# for token in scanner.tokens:
-#     print(token);
+for token in scanner.tokens:
+    print(token);
     
