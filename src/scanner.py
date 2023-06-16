@@ -31,95 +31,139 @@ class TokenType(Enum):
     IDENTIFIER = "IDENTIFIER"
     STRING = "STRING"
     NUMBER = "NUMBER"
-
+    
+    
     EOF = "eof"
-     # Keywords
-    KEYWORDS = {
-        "&&": "AND",
-        "||": "OR",
-        "false": "FALSE",
-        "true": "TRUE",
-        "func": "FUNC",
-        "null": "NIL",
-        "auto": "AUTO",
-        "break": "BREAK",
-        "case": "CASE",
-        "char": "CHAR",
-        "const": "CONST",
-        "continue": "CONTINUE",
-        "default": "DEFAULT",
-        "do": "DO",
-        "double": "DOUBLE",
-        "else": "ELSE",
-        "enum": "ENUM",
-        "extern": "EXTERN",
-        "float": "FLOAT",
-        "for": "FOR",
-        "goto": "GOTO",
-        "if": "IF",
-        "int": "INT",
-        "long": "LONG",
-        "register": "REGISTER",
-        "return": "RETURN",
-        "short": "SHORT",
-        "signed": "SIGNED",
-        "sizeof": "SIZEOF",
-        "static": "STATIC",
-        "struct": "STRUCT",
-        "switch": "SWITCH",
-        "typedef": "TYPEDEF",
-        "union": "UNION",
-        "unsigned": "UNSIGNED",
-        "void": "VOID",
-        "volatile": "VOLATILE",
-        "while": "WHILE"
-    }
     
-    # Types
-    TYPES = {
-        "void": "VOID",
-        "char": "CHAR",
-        "short": "SHORT",
-        "int": "INT",
-        "long": "LONG",
-        "float": "FLOAT",
-        "double": "DOUBLE",
-        "signed": "SIGNED",
-        "unsigned": "UNSIGNED",
-        "bool": "BOOL",
-        "complex": "COMPLEX",
-        "imaginary": "IMAGINARY",
-        "size_t": "SIZE_T",
-        "ptrdiff_t": "PTRDIFF_T",
-        "wchar_t": "WCHAR_T",
-        "int8_t": "INT8_T",
-        "uint8_t": "UINT8_T",
-        "int16_t": "INT16_T",
-        "uint16_t": "UINT16_T",
-        "int32_t": "INT32_T",
-        "uint32_t": "UINT32_T",
-        "int64_t": "INT64_T",
-        "uint64_t": "UINT64_T",
-        "intptr_t": "INTPTR_T",
-        "uintptr_t": "UINTPTR_T",
-        "intmax_t": "INTMAX_T",
-        "uintmax_t": "UINTMAX_T"
-    }
+    AND = 23
+    OR = 24
+    FALSE = 25
+    TRUE = 26
+    FUNC = 27
+    NIL = 28
+    AUTO = 29
+    BREAK = 30
+    CASE = 31
+    CHAR = 32
+    CONST = 33
+    CONTINUE = 34
+    DEFAULT = 35
+    DO = 36
+    DOUBLE = 37
+    ELSE = 38
+    ENUM = 39
+    EXTERN = 40
+    FLOAT = 41
+    FOR = 42
+    GOTO = 43
+    IF = 44
+    INT = 45
+    LONG = 46
+    REGISTER = 47
+    RETURN = 48
+    SHORT = 49
+    SIGNED = 50
+    SIZEOF = 51
+    STATIC = 52
+    STRUCT = 53
+    SWITCH = 54
+    TYPEDEF = 55
+    UNION = 56
+    UNSIGNED = 57
+    VOID = 58
+    VOLATILE = 59
+    WHILE = 60
     
-    PREPROCESSOR_DIRECTIVES = {
-        "include": "INCLUDE",
-        "define": "DEFINE",
-        "undef": "UNDEF",
-        "if": "IF",
-        "ifdef": "IFDEF",
-        "ifndef": "IFNDEF",
-        "else": "ELSE",
-        "elif": "ELIF",
-        "endif": "ENDIF",
-        "line": "LINE",
-        "error": "ERROR",
-        "pragma": "PRAGMA"
-    }
+    
+   
+# @audit are we doing anything with these in the lexer stage?
+# Types
+TYPES = {
+    "void": "VOID",
+    "char": "CHAR",
+    "short": "SHORT",
+    "int": "INT",
+    "long": "LONG",
+    "float": "FLOAT",
+    "double": "DOUBLE",
+    "signed": "SIGNED",
+    "unsigned": "UNSIGNED",
+    "bool": "BOOL",
+    "complex": "COMPLEX",
+    "imaginary": "IMAGINARY",
+    "size_t": "SIZE_T",
+    "ptrdiff_t": "PTRDIFF_T",
+    "wchar_t": "WCHAR_T",
+    "int8_t": "INT8_T",
+    "uint8_t": "UINT8_T",
+    "int16_t": "INT16_T",
+    "uint16_t": "UINT16_T",
+    "int32_t": "INT32_T",
+    "uint32_t": "UINT32_T",
+    "int64_t": "INT64_T",
+    "uint64_t": "UINT64_T",
+    "intptr_t": "INTPTR_T",
+    "uintptr_t": "UINTPTR_T",
+    "intmax_t": "INTMAX_T",
+    "uintmax_t": "UINTMAX_T"
+}
+    
+PREPROCESSOR_DIRECTIVES = {
+    "include": "INCLUDE",
+    "define": "DEFINE",
+    "undef": "UNDEF",
+    "if": "IF",
+    "ifdef": "IFDEF",
+    "ifndef": "IFNDEF",
+    "else": "ELSE",
+    "elif": "ELIF",
+    "endif": "ENDIF",
+    "line": "LINE",
+    "error": "ERROR",
+    "pragma": "PRAGMA"
+}
+
+KEYWORDS = {
+    "&&": TokenType.AND,
+    "||": TokenType.OR,
+    "false": TokenType.FALSE,
+    "true": TokenType.TRUE,
+    "func": TokenType.FUNC,
+    "null": TokenType.NIL,
+    "auto": TokenType.AUTO,
+    "break": TokenType.BREAK,
+    "case": TokenType.CASE,
+    "char": TokenType.CHAR,
+    "const": TokenType.CONST,
+    "continue": TokenType.CONTINUE,
+    "default": TokenType.DEFAULT,
+    "do": TokenType.DO,
+    "double": TokenType.DOUBLE,
+    "else": TokenType.ELSE,
+    "enum": TokenType.ENUM,
+    "extern": TokenType.EXTERN,
+    "float": TokenType.FLOAT,
+    "for": TokenType.FOR,
+    "goto": TokenType.GOTO,
+    "if": TokenType.IF,
+    "int": TokenType.INT,
+    "long": TokenType.LONG,
+    "register": TokenType.REGISTER,
+    "return": TokenType.RETURN,
+    "short": TokenType.SHORT,
+    "signed": TokenType.SIGNED,
+    "sizeof": TokenType.SIZEOF,
+    "static": TokenType.STATIC,
+    "struct": TokenType.STRUCT,
+    "switch": TokenType.SWITCH,
+    "typedef": TokenType.TYPEDEF,
+    "union": TokenType.UNION,
+    "unsigned": TokenType.UNSIGNED,
+    "void": TokenType.VOID,
+    "volatile": TokenType.VOLATILE,
+    "while": TokenType.WHILE,
+}
+
 
 
 class Error(Exception):
@@ -316,16 +360,14 @@ class Scanner:
     
     def handle_identifier(self):
         while self.peek().isalnum() or self.peek() == '_':
-            self.advance()               
-        # identifier cannot be a reserved keyword
+            self.advance()
+
         text = self.source[self.start:self.current]
-        token_type = TokenType.IDENTIFIER
+
+        # Check if the identifier is a keyword
+        token_type = TokenType.__members__.get(text.upper(), TokenType.IDENTIFIER)
         
-        
-        if any(text in value for value in TokenType.KEYWORDS.value.values()):
-            token_type = next(value for value in TokenType.KEYWORDS.value.values() if text in value)
-        else:
-            self.add_token(token_type)
+        self.add_token(token_type)
     
     def handle_directive(self):
         pass

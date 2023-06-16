@@ -1,6 +1,6 @@
 import unittest
 
-from src.scanner import TokenType, Scanner
+from src.scanner import TokenType, Scanner, KEYWORDS
 
 class TestScanner(unittest.TestCase):
 
@@ -67,18 +67,18 @@ class TestScanner(unittest.TestCase):
     #     for token in scanner.tokens:
     #         self.assertEqual(token.type, TokenType.IDENTIFIER)
 
-    # def test_keywords(self):
-    #     scanner = Scanner("auto break case char const continue default do double else enum extern")
-    #     scanner.scan_tokens()
-    #     expected_tokens = [TokenType.KEYWORDS["auto"], TokenType.KEYWORDS["break"], 
-    #                        TokenType.KEYWORDS["case"], TokenType.KEYWORDS["char"], 
-    #                        TokenType.KEYWORDS["const"], TokenType.KEYWORDS["continue"], 
-    #                        TokenType.KEYWORDS["default"], TokenType.KEYWORDS["do"], 
-    #                        TokenType.KEYWORDS["double"], TokenType.KEYWORDS["else"], 
-    #                        TokenType.KEYWORDS["enum"], TokenType.KEYWORDS["extern"]]
-    #     self.assertEqual(len(scanner.tokens), len(expected_tokens))
-    #     for token, expected_token in zip(scanner.tokens, expected_tokens):
-    #         self.assertEqual(token.type, expected_token)
+    def test_identifiers_and_keywords(self):
+        scanner = Scanner("auto break case char myVariable")
+        scanner.scan_tokens()
+        self.assertEqual(len(scanner.tokens), 5)
+        # The first 4 tokens should be keywords
+        for token in range(4):
+            self.assertEqual(scanner.tokens[token].type, TokenType[scanner.tokens[token].lexeme.upper()])
+        # The last token should be an identifier
+        self.assertEqual(scanner.tokens[4].type, TokenType.IDENTIFIER)
+
+
+       
 
 if __name__ == "__main__":
     unittest.main()
