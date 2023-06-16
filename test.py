@@ -59,9 +59,9 @@ class TestScanner(unittest.TestCase):
 
 
     def test_identifiers_and_keywords(self):
-        scanner = Scanner("auto break case char myVariable")
+        scanner = Scanner("auto break case char uint include define myVariable")
         scanner.scan_tokens()
-        self.assertEqual(len(scanner.tokens), 5)
+        self.assertEqual(len(scanner.tokens), 8)
         # The first 4 tokens should be keywords
         for token in range(4):
             self.assertEqual(scanner.tokens[token].type, TokenType[scanner.tokens[token].lexeme.upper()])
