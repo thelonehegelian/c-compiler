@@ -165,7 +165,7 @@ class Scanner:
             # we move with each token
             self.start = self.current
             self.scan_token()
-
+        
     def is_at_end(self):
         # if current is greater than the length of the source code, then we are at the end of the source co
         return self.current >= len(self.source)
@@ -198,7 +198,8 @@ class Scanner:
             self.add_token(TokenType.PLUS)
         elif c == '*':
             self.add_token(TokenType.STAR)
-        
+        elif c.isdigit():
+            self.handle_number_literal(c)
         # matches the bang, if the next character is an equal sign, then it is a bang equal else it is just a bang
         elif c == '!':
             if self.match('='):
@@ -230,7 +231,7 @@ class Scanner:
                 self.handle_comment()
         # handle whitespaces
         elif c == ' ' or c == '\r' or c == '\t':
-            self.advance()
+            pass # ignore whitespace
         elif c == '\n':
             # we are at a new line, so we increment the line counter
             self.line += 1
@@ -238,8 +239,7 @@ class Scanner:
         elif c.isalpha():
             # @audit is this method satisfactory? or should we use a hashmap with find()?
             self.handle_identifier()
-        elif c.isdigit():
-            self.handle_number_literal()
+
         elif c == '"':
             self.handle_string_literal()
         # @todo there should be a main function handler
@@ -299,20 +299,20 @@ class Scanner:
         self.add_token(TokenType.STRING, value)
         
     # @todo error handling
-    def handle_number_literal(self):
-        number = ""
-        # trailing dots are not allowed
-        # we keep moving until we find a non-digit character
+    def handle_number_literal(self, first_digit):
+        number = first_digit
         while self.peek().isdigit():
             number += self.advance()
-        # look for a fractional part
+
         if self.peek() == '.':
-            # add the dot to the number string
             number += self.advance()
-            # we keep moving until we find a non-digit character
             while self.peek().isdigit():
                 number += self.advance()
-        self.add_token(TokenType.NUMBER, float(number))
+
+        self.add_token(TokenType.NUMBER, float(number) if '.' in number else int(number))
+
+
+
     
     def handle_identifier(self):
         while self.peek().isalnum() or self.peek() == '_':
@@ -337,11 +337,14 @@ class Scanner:
         
 # a sample C source code
 # @todo fix problems with comment parsing
-src ="+"
+src ="32 1234"
 
 # create a scanner object
 scanner = Scanner(src)
 
 # scan the source code
 scanner.scan_tokens()
+
+# for token in scanner.tokens:
+#     print(token);
     

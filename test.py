@@ -41,21 +41,24 @@ class TestScanner(unittest.TestCase):
         for token in scanner.tokens:
           self.assertEqual(token.type, TokenType.PLUS)
 
-    # def test_string_literal(self):
-    #     scanner = Scanner('"this is a string"')
-    #     scanner.scan_tokens()
-    #     self.assertEqual(len(scanner.tokens), 1)
-    #     self.assertEqual(scanner.tokens[0].type, TokenType.STRING)
-    #     self.assertEqual(scanner.tokens[0].literal, "this is a string")
+    def test_string_literal(self):
+        scanner = Scanner('"this is a string"')
+        scanner.scan_tokens()
+        self.assertEqual(len(scanner.tokens), 1)
+        self.assertEqual(scanner.tokens[0].type, TokenType.STRING)
+        self.assertEqual(scanner.tokens[0].literal, "this is a string")
 
-    # def test_number_literal(self):
-    #     scanner = Scanner("1234 12.34")
-    #     scanner.scan_tokens()
-    #     self.assertEqual(len(scanner.tokens), 2)
-    #     self.assertEqual(scanner.tokens[0].type, TokenType.NUMBER)
-    #     self.assertEqual(scanner.tokens[0].literal, 1234)
-    #     self.assertEqual(scanner.tokens[1].type, TokenType.NUMBER)
-    #     self.assertEqual(scanner.tokens[1].literal, 12.34)
+    def test_number_literal(self):
+        scanner = Scanner("12 12.34")
+        # print(scanner.start)
+        scanner.scan_tokens()
+        
+        self.assertEqual(len(scanner.tokens), 2)
+        self.assertEqual(scanner.tokens[0].type, TokenType.NUMBER)
+        self.assertEqual(scanner.tokens[0].literal, 12)
+        self.assertEqual(scanner.tokens[1].type, TokenType.NUMBER)
+        self.assertEqual(scanner.tokens[1].literal, 12.34)
+
 
     # def test_identifiers(self):
     #     scanner = Scanner("abc abc123 _abc")
