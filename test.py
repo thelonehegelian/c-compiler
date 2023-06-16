@@ -20,18 +20,16 @@ class TestScanner(unittest.TestCase):
         for token, expected_token in zip(scanner.tokens, expected_tokens):
             self.assertEqual(token.type, expected_token)
 
-    # def test_operators(self):
-    #     scanner = Scanner("! != = == > >= < <=")
-    #     scanner.scan_tokens()
-    #     for token in scanner.tokens:
-    #       print(token)
+    def test_operators(self):
+        scanner = Scanner("! != = == > >= < <=")
+        scanner.scan_tokens()
 
-        # expected_tokens = [TokenType.BANG, TokenType.BANG_EQUAL, TokenType.EQUAL, 
-        #                    TokenType.EQUAL_EQUAL, TokenType.GREATER, TokenType.GREATER_EQUAL, 
-        #                    TokenType.LESS, TokenType.LESS_EQUAL]
-        # self.assertEqual(len(scanner.tokens), len(expected_tokens))
-        # for token, expected_token in zip(scanner.tokens, expected_tokens):
-        #     self.assertEqual(token.type, expected_token)
+        expected_tokens = [TokenType.BANG, TokenType.BANG_EQUAL, TokenType.EQUAL, 
+                           TokenType.EQUAL_EQUAL, TokenType.GREATER, TokenType.GREATER_EQUAL, 
+                           TokenType.LESS, TokenType.LESS_EQUAL]
+        self.assertEqual(len(scanner.tokens), len(expected_tokens))
+        for token, expected_token in zip(scanner.tokens, expected_tokens):
+            self.assertEqual(token.type, expected_token)
 
     # @note the text of the comment is ignored and the contents of the comment are not scanned
     def test_ignore_comments(self):
@@ -59,13 +57,6 @@ class TestScanner(unittest.TestCase):
         self.assertEqual(scanner.tokens[1].type, TokenType.NUMBER)
         self.assertEqual(scanner.tokens[1].literal, 12.34)
 
-
-    # def test_identifiers(self):
-    #     scanner = Scanner("abc abc123 _abc")
-    #     scanner.scan_tokens()
-    #     self.assertEqual(len(scanner.tokens), 3)
-    #     for token in scanner.tokens:
-    #         self.assertEqual(token.type, TokenType.IDENTIFIER)
 
     def test_identifiers_and_keywords(self):
         scanner = Scanner("auto break case char myVariable")
