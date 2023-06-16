@@ -1,4 +1,3 @@
-# c-compiler
-A c compiler written in python
+A c compiler written in python (just for fun)
 
 - [x] Lexer
