@@ -1,3 +1,3 @@
-A c compiler written in python (just for fun)
+A C99 compiler written in Python (just for fun)
 
 - [x] Lexer
