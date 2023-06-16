@@ -158,9 +158,6 @@ KEYWORDS = {
     "||": TokenType.OR,
     "false": TokenType.FALSE,
     "true": TokenType.TRUE,
-    "func": TokenType.FUNC,
-    "null": TokenType.NIL,
-    "auto": TokenType.AUTO,
     "break": TokenType.BREAK,
     "case": TokenType.CASE,
     "char": TokenType.CHAR,
@@ -373,6 +370,7 @@ class Scanner:
         self.add_token(TokenType.STRING, value)
         
     # @todo error handling
+    # @todo handle Octal, Hexadecimal and Binary literals
     def handle_number_literal(self, first_digit):
         number = first_digit
         while self.peek().isdigit():
