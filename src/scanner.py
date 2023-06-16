@@ -1,8 +1,5 @@
 from enum import Enum
 
-
-
-
 class TokenType(Enum):
     # single-character tokens.
     LEFT_PAREN = "("
@@ -23,8 +20,9 @@ class TokenType(Enum):
     GREATER_EQUAL = ">="
     LESS = "<"
     LESS_EQUAL = "<="
+    COMMENT = "//"
 
-    #operators
+    # operators
     PLUS = "+"
     MINUS = "-"
     STAR = "*"
@@ -35,95 +33,93 @@ class TokenType(Enum):
     NUMBER = "NUMBER"
 
     EOF = "eof"
-
-# @todo move to the TokenType class
-KEYWORDS = {
-    "&&": TokenType.AND,
-    "||": TokenType.OR,
-    "false": TokenType.FALSE,
-    "true": TokenType.TRUE,
-    "func": TokenType.FUNC,
-    "null": TokenType.NIL,
+     # Keywords
+    KEYWORDS = {
+        "&&": "AND",
+        "||": "OR",
+        "false": "FALSE",
+        "true": "TRUE",
+        "func": "FUNC",
+        "null": "NIL",
+        "auto": "AUTO",
+        "break": "BREAK",
+        "case": "CASE",
+        "char": "CHAR",
+        "const": "CONST",
+        "continue": "CONTINUE",
+        "default": "DEFAULT",
+        "do": "DO",
+        "double": "DOUBLE",
+        "else": "ELSE",
+        "enum": "ENUM",
+        "extern": "EXTERN",
+        "float": "FLOAT",
+        "for": "FOR",
+        "goto": "GOTO",
+        "if": "IF",
+        "int": "INT",
+        "long": "LONG",
+        "register": "REGISTER",
+        "return": "RETURN",
+        "short": "SHORT",
+        "signed": "SIGNED",
+        "sizeof": "SIZEOF",
+        "static": "STATIC",
+        "struct": "STRUCT",
+        "switch": "SWITCH",
+        "typedef": "TYPEDEF",
+        "union": "UNION",
+        "unsigned": "UNSIGNED",
+        "void": "VOID",
+        "volatile": "VOLATILE",
+        "while": "WHILE"
+    }
     
-    "auto": TokenType.AUTO,
-    "break": TokenType.BREAK,
-    "case": TokenType.CASE,
-    "char": TokenType.CHAR,
-    "const": TokenType.CONST,
-    "continue": TokenType.CONTINUE,
-    "default": TokenType.DEFAULT,
-    "do": TokenType.DO,
-    "double": TokenType.DOUBLE,
-    "else": TokenType.ELSE,
-    "enum": TokenType.ENUM,
-    "extern": TokenType.EXTERN,
-    "float": TokenType.FLOAT,
-    "for": TokenType.FOR,
-    "goto": TokenType.GOTO,
-    "if": TokenType.IF,
-    "int": TokenType.INT,
-    "long": TokenType.LONG,
-    "register": TokenType.REGISTER,
-    "return": TokenType.RETURN,
-    "short": TokenType.SHORT,
-    "signed": TokenType.SIGNED,
-    "sizeof": TokenType.SIZEOF,
-    "static": TokenType.STATIC,
-    "struct": TokenType.STRUCT,
-    "switch": TokenType.SWITCH,
-    "typedef": TokenType.TYPEDEF,
-    "union": TokenType.UNION,
-    "unsigned": TokenType.UNSIGNED,
-    "void": TokenType.VOID,
-    "volatile": TokenType.VOLATILE,
-    "while": TokenType.WHILE
-
-}
-
-PREPROCESSOR_DIRECTIVES = {
-    "include": TokenType.INCLUDE,
-    "define": TokenType.DEFINE,
-    "undef": TokenType.UNDEF,
-    "if": TokenType.IF,
-    "ifdef": TokenType.IFDEF,
-    "ifndef": TokenType.IFNDEF,
-    "else": TokenType.ELSE,
-    "elif": TokenType.ELIF,
-    "endif": TokenType.ENDIF,
-    "line": TokenType.LINE,
-    "error": TokenType.ERROR,
-    "pragma": TokenType.PRAGMA
-}
-
-TYPES = {
-    "void": TokenType.VOID,
-    "char": TokenType.CHAR,
-    "short": TokenType.SHORT,
-    "int": TokenType.INT,
-    "long": TokenType.LONG,
-    "float": TokenType.FLOAT,
-    "double": TokenType.DOUBLE,
-    "signed": TokenType.SIGNED,
-    "unsigned": TokenType.UNSIGNED,
-    "bool": TokenType.BOOL,
-    "complex": TokenType.COMPLEX,
-    "imaginary": TokenType.IMAGINARY,
-    "size_t": TokenType.SIZE_T,
-    "ptrdiff_t": TokenType.PTRDIFF_T,
-    "wchar_t": TokenType.WCHAR_T,
-    "int8_t": TokenType.INT8_T,
-    "uint8_t": TokenType.UINT8_T,
-    "int16_t": TokenType.INT16_T,
-    "uint16_t": TokenType.UINT16_T,
-    "int32_t": TokenType.INT32_T,
-    "uint32_t": TokenType.UINT32_T,
-    "int64_t": TokenType.INT64_T,
-    "uint64_t": TokenType.UINT64_T,
-    "intptr_t": TokenType.INTPTR_T,
-    "uintptr_t": TokenType.UINTPTR_T,
-    "intmax_t": TokenType.INTMAX_T,
-    "uintmax_t": TokenType.UINTMAX_T
-}
+    # Types
+    TYPES = {
+        "void": "VOID",
+        "char": "CHAR",
+        "short": "SHORT",
+        "int": "INT",
+        "long": "LONG",
+        "float": "FLOAT",
+        "double": "DOUBLE",
+        "signed": "SIGNED",
+        "unsigned": "UNSIGNED",
+        "bool": "BOOL",
+        "complex": "COMPLEX",
+        "imaginary": "IMAGINARY",
+        "size_t": "SIZE_T",
+        "ptrdiff_t": "PTRDIFF_T",
+        "wchar_t": "WCHAR_T",
+        "int8_t": "INT8_T",
+        "uint8_t": "UINT8_T",
+        "int16_t": "INT16_T",
+        "uint16_t": "UINT16_T",
+        "int32_t": "INT32_T",
+        "uint32_t": "UINT32_T",
+        "int64_t": "INT64_T",
+        "uint64_t": "UINT64_T",
+        "intptr_t": "INTPTR_T",
+        "uintptr_t": "UINTPTR_T",
+        "intmax_t": "INTMAX_T",
+        "uintmax_t": "UINTMAX_T"
+    }
+    
+    PREPROCESSOR_DIRECTIVES = {
+        "include": "INCLUDE",
+        "define": "DEFINE",
+        "undef": "UNDEF",
+        "if": "IF",
+        "ifdef": "IFDEF",
+        "ifndef": "IFNDEF",
+        "else": "ELSE",
+        "elif": "ELIF",
+        "endif": "ENDIF",
+        "line": "LINE",
+        "error": "ERROR",
+        "pragma": "PRAGMA"
+    }
 
 
 class Error(Exception):
@@ -166,11 +162,8 @@ class Scanner:
     def scan_tokens(self):
         # print(len(self.source))
         while not self.is_at_end():
-            print("scanning token")
             # we move with each token
             self.start = self.current
-            print(self.start)
-            print(self.current)
             self.scan_token()
 
     def is_at_end(self):
@@ -208,15 +201,33 @@ class Scanner:
         
         # matches the bang, if the next character is an equal sign, then it is a bang equal else it is just a bang
         elif c == '!':
-            self.match('=') and self.add_token(TokenType.BANG_EQUAL) or self.add_token(TokenType.BANG)
+            if self.match('='):
+                self.add_token(TokenType.BANG_EQUAL)
+            else:
+                self.add_token(TokenType.BANG)
+                
         elif c == '=':
-            self.match('=') and self.add_token(TokenType.EQUAL_EQUAL) or self.add_token(TokenType.EQUAL)
+            if self.match('='):
+                self.add_token(TokenType.EQUAL_EQUAL)
+            else:
+              self.add_token(TokenType.EQUAL)
         elif c == '<':
-            self.match('=') and self.add_token(TokenType.LESS_EQUAL) or self.add_token(TokenType.LESS)
+            if self.match('='):
+                self.add_token(TokenType.LESS_EQUAL)
+            else:
+                self.add_token(TokenType.LESS)
         elif c == '>':
-            self.match('=') and self.add_token(TokenType.GREATER_EQUAL) or self.add_token(TokenType.GREATER)
+            if self.match('='):
+                self.add_token(TokenType.GREATER_EQUAL)
+            else:
+                self.add_token(TokenType.GREATER)
         elif c == '/':
-            self.handle_slash()      
+            if self.peek() != '/':
+                # then it is a division operator
+                self.add_token(TokenType.SLASH)
+            elif self.peek() == '/':
+                # then it is a comment
+                self.handle_comment()
         # handle whitespaces
         elif c == ' ' or c == '\r' or c == '\t':
             self.advance()
@@ -233,18 +244,8 @@ class Scanner:
             self.handle_string_literal()
         # @todo there should be a main function handler
         # @todo there should be a function handler
-        
-            
-            
         else:
-            print("error")
-            
-
-    # move to the next character and return the current one
-    def advance(self):
-        # @todo rewrite
-        self.current += 1
-        return self.source[self.current - 1]
+            Error.error(self.line, "Unexpected character.")
 
     # check if next character is the expected one
     def match(self, expected):
@@ -258,22 +259,22 @@ class Scanner:
         self.current += 1
         return True
     
-    def handle_slash(self):
-        # if the next chacter is a slash, then it is a comment
-        # a comment goes to the end of the line
-        # @note this is not the case with /* */ comments
-        if self.match('/'):
-            print("ignoring comment...")
-            while self.peek() != '\n' and not self.is_at_end():
-                self.advance()
-        else:
+    def handle_comment(self):
+        while self.peek() != '\n' and not self.is_at_end():
+            self.advance()
+        if self.peek() == '\n':
+            self.advance()
 
-            self.add_token(TokenType.SLASH)
     # peek looks at the next character without consuming it
     def peek(self):
         if self.is_at_end():
             return '\0'
         return self.source[self.current]
+     # move to the next character and return the current one
+    def advance(self):
+        # @todo rewrite
+        self.current += 1
+        return self.source[self.current - 1]
     
     # handlers for literals and keywords
     def handle_string_literal(self):
@@ -312,10 +313,6 @@ class Scanner:
             while self.peek().isdigit():
                 number += self.advance()
         self.add_token(TokenType.NUMBER, float(number))
-        
-    def handle_for_keyword(self):
-        self.match('o') and self.match('r')
-        self.add_token(TokenType.FOR)
     
     def handle_identifier(self):
         while self.peek().isalnum() or self.peek() == '_':
@@ -323,13 +320,18 @@ class Scanner:
         # identifier cannot be a reserved keyword
         text = self.source[self.start:self.current]
         token_type = TokenType.IDENTIFIER
-        if text in KEYWORDS:
-            # update the token type
-            # @note we can also generate a message here to warn the user that they are using a reserved keyword
-            token_type = KEYWORDS[text]
+        
+        
+        if any(text in value for value in TokenType.KEYWORDS.value.values()):
+            token_type = next(value for value in TokenType.KEYWORDS.value.values() if text in value)
         else:
             self.add_token(token_type)
-        
+    
+    def handle_directive(self):
+        pass
+    
+    def handle_types(self):
+        pass
             
         
         
@@ -342,7 +344,4 @@ scanner = Scanner(src)
 
 # scan the source code
 scanner.scan_tokens()
-# print tokens as strings
-for token in scanner.tokens:
-    print(token)
     
