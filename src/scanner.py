@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import Enum, auto
 
 class TokenType(Enum):
     # single-character tokens.
@@ -74,53 +74,83 @@ class TokenType(Enum):
     VOLATILE = 59
     WHILE = 60
     
+    INCLUDE = auto()
+    DEFINE = auto()
+    UNDEF = auto()
+    IFDEF = auto()
+    IFNDEF = auto()
+    ELIF = auto()
+    ENDIF = auto()
+    LINE = auto()
+    ERROR = auto()
+    PRAGMA = auto()
     
+  
+    BOOL = auto()
+    COMPLEX = auto()
+    IMAGINARY = auto()
+    SIZE_T = auto()
+    PTRDIFF_T = auto()
+    WCHAR_T = auto()
+    INT8_T = auto()
+    UINT8_T = auto()
+    INT16_T = auto()
+    UINT16_T = auto()
+    INT32_T = auto()
+    UINT32_T = auto()
+    INT64_T = auto()
+    UINT64_T = auto()
+    INTPTR_T = auto()
+    UINTPTR_T = auto()
+    INTMAX_T = auto()
+    UINTMAX_T = auto()
    
-# @audit are we doing anything with these in the lexer stage?
 # Types
+# @note can also be treated as keywords or even Types, but we are treating them as Identifiers for now.
 TYPES = {
-    "void": "VOID",
-    "char": "CHAR",
-    "short": "SHORT",
-    "int": "INT",
-    "long": "LONG",
-    "float": "FLOAT",
-    "double": "DOUBLE",
-    "signed": "SIGNED",
-    "unsigned": "UNSIGNED",
-    "bool": "BOOL",
-    "complex": "COMPLEX",
-    "imaginary": "IMAGINARY",
-    "size_t": "SIZE_T",
-    "ptrdiff_t": "PTRDIFF_T",
-    "wchar_t": "WCHAR_T",
-    "int8_t": "INT8_T",
-    "uint8_t": "UINT8_T",
-    "int16_t": "INT16_T",
-    "uint16_t": "UINT16_T",
-    "int32_t": "INT32_T",
-    "uint32_t": "UINT32_T",
-    "int64_t": "INT64_T",
-    "uint64_t": "UINT64_T",
-    "intptr_t": "INTPTR_T",
-    "uintptr_t": "UINTPTR_T",
-    "intmax_t": "INTMAX_T",
-    "uintmax_t": "UINTMAX_T"
+    "void": TokenType.VOID,
+    "char": TokenType.CHAR,
+    "short": TokenType.SHORT,
+    "int": TokenType.INT,
+    "long": TokenType.LONG,
+    "float": TokenType.FLOAT,
+    "double": TokenType.DOUBLE,
+    "signed": TokenType.SIGNED,
+    "unsigned": TokenType.UNSIGNED,
+    "bool": TokenType.BOOL,
+    "complex": TokenType.COMPLEX,
+    "imaginary": TokenType.IMAGINARY,
+    "size_t": TokenType.SIZE_T,
+    "ptrdiff_t": TokenType.PTRDIFF_T,
+    "wchar_t": TokenType.WCHAR_T,
+    "int8_t": TokenType.INT8_T,
+    "uint8_t": TokenType.UINT8_T,
+    "int16_t": TokenType.INT16_T,
+    "uint16_t": TokenType.UINT16_T,
+    "int32_t": TokenType.INT32_T,
+    "uint32_t": TokenType.UINT32_T,
+    "int64_t": TokenType.INT64_T,
+    "uint64_t": TokenType.UINT64_T,
+    "intptr_t": TokenType.INTPTR_T,
+    "uintptr_t": TokenType.UINTPTR_T,
+    "intmax_t": TokenType.INTMAX_T,
+    "uintmax_t": TokenType.UINTMAX_T
 }
     
+# @note some of these are handled in before the lexer stage by a preprocessor. We are keeping it simple
 PREPROCESSOR_DIRECTIVES = {
-    "include": "INCLUDE",
-    "define": "DEFINE",
-    "undef": "UNDEF",
-    "if": "IF",
-    "ifdef": "IFDEF",
-    "ifndef": "IFNDEF",
-    "else": "ELSE",
-    "elif": "ELIF",
-    "endif": "ENDIF",
-    "line": "LINE",
-    "error": "ERROR",
-    "pragma": "PRAGMA"
+    "include": TokenType.INCLUDE,
+    "define": TokenType.DEFINE,
+    "undef": TokenType.UNDEF,
+    "if": TokenType.IF,
+    "ifdef": TokenType.IFDEF,
+    "ifndef": TokenType.IFNDEF,
+    "else": TokenType.ELSE,
+    "elif": TokenType.ELIF,
+    "endif": TokenType.ENDIF,
+    "line": TokenType.LINE,
+    "error": TokenType.ERROR,
+    "pragma": TokenType.PRAGMA
 }
 
 KEYWORDS = {
@@ -363,18 +393,17 @@ class Scanner:
             self.advance()
 
         text = self.source[self.start:self.current]
-
+        token_type = TokenType.IDENTIFIER
         # Check if the identifier is a keyword
-        token_type = TokenType.__members__.get(text.upper(), TokenType.IDENTIFIER)
+        if text in KEYWORDS:
+            token_type = KEYWORDS[text]
+        elif text in TYPES:
+            token_type = TYPES[text]
+        elif text in PREPROCESSOR_DIRECTIVES:
+            token_type = PREPROCESSOR_DIRECTIVES[text]
         
         self.add_token(token_type)
     
-    def handle_directive(self):
-        pass
-    
-    def handle_types(self):
-        pass
-            
         
         
 # a sample C source code
