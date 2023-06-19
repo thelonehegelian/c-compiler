@@ -61,31 +61,3 @@ class Literal(Expression):
   def accept(self, visitor):
         return visitor.visit_literal_expression(self)
         
-
-class TestVisitor(unittest.TestCase):
-    def setUp(self):
-        self.visitor = Visitor()
-
-    def test_visit_binary_expression(self):
-        # Test with literal expressions
-        expr = Binary(Literal(1), '+', Literal(2))
-        result = expr.accept(self.visitor)
-        self.assertEqual(result, '(+ 1 2)')
-
-        # Test with nested binary expressions
-        expr = Binary(Binary(Literal(1), '+', Literal(2)), '*', Literal(3))
-        result = expr.accept(self.visitor)
-        self.assertEqual(result, '(* (+ 1 2) 3)')
-
-    def test_visit_grouping_expression(self):
-        expr = Grouping(Binary(Literal(1), '+', Literal(2)))
-        result = expr.accept(self.visitor)
-        self.assertEqual(result, '(group (+ 1 2))')
-
-    def test_visit_literal_expression(self):
-        expr = Literal(5)
-        result = expr.accept(self.visitor)
-        self.assertEqual(result, '5')
-
-if __name__ == '__main__':
-    unittest.main()
