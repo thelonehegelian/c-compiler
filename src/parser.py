@@ -2,19 +2,43 @@ from abc import ABC, abstractmethod
 
 # expression is an abstract class
 class Expression(ABC):
-  pass
+   def accept(self, visitor):
+    pass
     
 class Visitor():
   def visit_binary_expression(self, expression):
-    pass
+    self.parenthesize(expression.operator.lexeme, [expression.left, expression.right])
+
   def visit_grouping_expression(self, expression):
-    pass
+    pass  
   def visit_literal_expression(self, expression):
     pass
   def visit_unary_expression(self, expression):
-    pass
+    return (expression.operator, expression.expression.accept(self))
+  
   def visit_assignment_expression(self, expression):
     pass
+    
+  # generate the AST from an expression
+  def parenthesize(self, lexeme, expressions):
+    # this would also take care of precedence of operators
+    # 1. it wraps the lexeme in parenthesis
+    # 2. it checks if the expression is a binary expression
+    # 3. if it is, it calls the parenthesize function on the left and right expressions
+    # 4. if it is not, it returns the expression
+    # 5. it returns the result of the parenthesize function
+    final_expression = ""
+    final_expression.append("(")
+    final_expression.append(lexeme)
+    for expression in expressions:
+      final_expression.append(expression.accept(self))
+    final_expression.append(")")
+    
+    return final_expression
+    
+        
+    
+    
 
 class Binary(Expression):
   """
