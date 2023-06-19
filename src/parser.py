@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import unittest
 
 # expression is an abstract class
 class Expression(ABC):
@@ -6,62 +7,40 @@ class Expression(ABC):
     pass
     
 class Visitor():
-  def visit_binary_expression(self, expression):
-    self.parenthesize(expression.operator.lexeme, [expression.left, expression.right])
+    def visit_binary_expression(self, expression):
+        return self.parenthesize(expression.operator, [expression.left, expression.right])
 
-  def visit_grouping_expression(self, expression):
-    pass  
-  def visit_literal_expression(self, expression):
-    pass
-  def visit_unary_expression(self, expression):
-    return (expression.operator, expression.expression.accept(self))
-  
-  def visit_assignment_expression(self, expression):
-    pass
-    
-  # generate the AST from an expression
-  def parenthesize(self, lexeme, expressions):
-    # this would also take care of precedence of operators
-    # 1. it wraps the lexeme in parenthesis
-    # 2. it checks if the expression is a binary expression
-    # 3. if it is, it calls the parenthesize function on the left and right expressions
-    # 4. if it is not, it returns the expression
-    # 5. it returns the result of the parenthesize function
-    final_expression = ""
-    final_expression.append("(")
-    final_expression.append(lexeme)
-    for expression in expressions:
-      final_expression.append(expression.accept(self))
-    final_expression.append(")")
-    
-    return final_expression
-    
+    def visit_grouping_expression(self, expression):
+        return self.parenthesize("group", [expression.expression])
+
+    def visit_literal_expression(self, expression):
+        return str(expression.value)
+
+    def parenthesize(self, name, expressions):
+        final_expression = "(" + name
+        for expression in expressions:
+            final_expression += " " + expression.accept(self)
+        final_expression += ")"
         
+        return final_expression
     
-    
-
 class Binary(Expression):
-  """
-  left: Expression
-  right: Expression
-  operator: Token
-  """
-  def __init__(self, left, operator, right):
-    self.left = left 
-    self.right = right
-    self.operator = operator
+    def __init__(self, left, operator, right):
+        self.left = left 
+        self.right = right
+        self.operator = operator
 
-  def accept(self, visitor):
-    visitor.visit_binary_expression(self)
+    def accept(self, visitor):
+        return visitor.visit_binary_expression(self)
+
     
 class Grouping(Expression):
-  def __init__(self,left_paren, expression, right_paren):
-    self.left_paren = left_paren
-    self.expression = expression
-    self.right_paren = right_paren
+    def __init__(self, expression):
+        self.expression = expression
 
-  def accept(self, visitor):
-    visitor.visit_grouping_expression(self)
+    def accept(self, visitor):
+        return visitor.visit_grouping_expression(self)
+
     
 class Unary(Expression):
     def __init__(self, operator, expression):
@@ -69,7 +48,7 @@ class Unary(Expression):
         self.expression = expression
 
     def accept(self, visitor):
-        visitor.visit_unary_expression(self)
+        return visitor.visit_unary_expression(self)
         
 class Literal(Expression):
   """
@@ -80,4 +59,33 @@ class Literal(Expression):
         self.value = value
     
   def accept(self, visitor):
-        visitor.visit_literal_expression(self)
+        return visitor.visit_literal_expression(self)
+        
+
+class TestVisitor(unittest.TestCase):
+    def setUp(self):
+        self.visitor = Visitor()
+
+    def test_visit_binary_expression(self):
+        # Test with literal expressions
+        expr = Binary(Literal(1), '+', Literal(2))
+        result = expr.accept(self.visitor)
+        self.assertEqual(result, '(+ 1 2)')
+
+        # Test with nested binary expressions
+        expr = Binary(Binary(Literal(1), '+', Literal(2)), '*', Literal(3))
+        result = expr.accept(self.visitor)
+        self.assertEqual(result, '(* (+ 1 2) 3)')
+
+    def test_visit_grouping_expression(self):
+        expr = Grouping(Binary(Literal(1), '+', Literal(2)))
+        result = expr.accept(self.visitor)
+        self.assertEqual(result, '(group (+ 1 2))')
+
+    def test_visit_literal_expression(self):
+        expr = Literal(5)
+        result = expr.accept(self.visitor)
+        self.assertEqual(result, '5')
+
+if __name__ == '__main__':
+    unittest.main()
