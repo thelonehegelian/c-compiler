@@ -1,6 +1,7 @@
 import unittest
 
 from src.scanner import TokenType, Scanner, KEYWORDS
+from src.parser import Visitor, Binary, Grouping, Literal
 
 class TestScanner(unittest.TestCase):
 
@@ -48,7 +49,6 @@ class TestScanner(unittest.TestCase):
 
     def test_number_literal(self):
         scanner = Scanner("12 12.34")
-        # print(scanner.start)
         scanner.scan_tokens()
         
         self.assertEqual(len(scanner.tokens), 2)
@@ -65,9 +65,34 @@ class TestScanner(unittest.TestCase):
         # The first 4 tokens should be keywords
         for token in range(4):
             self.assertEqual(scanner.tokens[token].type, TokenType[scanner.tokens[token].lexeme.upper()])
-        # The last token should be an identifier
+        # # The last token should be an identifier
         self.assertEqual(scanner.tokens[4].type, TokenType.IDENTIFIER)
 
+
+class TestVisitor(unittest.TestCase):
+    def setUp(self):
+        self.visitor = Visitor()
+
+    def test_visit_binary_expression(self):
+        # Test with literal expressions
+        expr = Binary(Literal(1), '+', Literal(2))
+        result = expr.accept(self.visitor)
+        self.assertEqual(result, '(+ 1 2)')
+
+        # Test with nested binary expressions
+        expr = Binary(Binary(Literal(1), '+', Literal(2)), '*', Literal(3))
+        result = expr.accept(self.visitor)
+        self.assertEqual(result, '(* (+ 1 2) 3)')
+
+    def test_visit_grouping_expression(self):
+        expr = Grouping(Binary(Literal(1), '+', Literal(2)))
+        result = expr.accept(self.visitor)
+        self.assertEqual(result, '(group (+ 1 2))')
+
+    def test_visit_literal_expression(self):
+        expr = Literal(5)
+        result = expr.accept(self.visitor)
+        self.assertEqual(result, '5')
 
        
 

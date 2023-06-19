@@ -155,6 +155,7 @@ PREPROCESSOR_DIRECTIVES = {
 }
 
 KEYWORDS = {
+    "auto": TokenType.AUTO,
     "&&": TokenType.AND,
     "||": TokenType.OR,
     "false": TokenType.FALSE,
@@ -232,7 +233,6 @@ class Scanner:
         self.tokens = []
     
     def scan_tokens(self):
-        # print(len(self.source))
         while not self.is_at_end():
             # we move with each token
             self.start = self.current
@@ -418,7 +418,4 @@ scanner = Scanner(src)
 
 # scan the source code
 scanner.scan_tokens()
-
-for token in scanner.tokens:
-    print(token);
     
