@@ -27,19 +27,26 @@ class Binary(Expression):
     self.right = right
     self.operator = operator
 
+  def accept(self, visitor):
+    visitor.visit_binary_expression(self)
+    
 class Grouping(Expression):
   def __init__(self,left_paren, expression, right_paren):
     self.left_paren = left_paren
     self.expression = expression
     self.right_paren = right_paren
 
-
+  def accept(self, visitor):
+    visitor.visit_grouping_expression(self)
+    
 class Unary(Expression):
     def __init__(self, operator, expression):
         self.operator = operator
         self.expression = expression
 
-
+    def accept(self, visitor):
+        visitor.visit_unary_expression(self)
+        
 class Literal(Expression):
   """
   @note literal is either a string or a number
@@ -48,3 +55,5 @@ class Literal(Expression):
   def __init__(self, value):
         self.value = value
     
+  def accept(self, visitor):
+        visitor.visit_literal_expression(self)
