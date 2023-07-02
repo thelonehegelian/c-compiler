@@ -69,7 +69,7 @@ class TestScanner(unittest.TestCase):
         self.assertEqual(scanner.tokens[4].type, TokenType.IDENTIFIER)
 
 
-class TestVisitor(unittest.TestCase):
+class TestParser (unittest.TestCase):
     def setUp(self):
         self.visitor = Visitor()
 

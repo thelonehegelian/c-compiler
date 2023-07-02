@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-import unittest
+
+# @todo operation precedence is not implemented yet
 
 # expression is an abstract class
 class Expression(ABC):
