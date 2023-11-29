@@ -1,4 +1,4 @@
-**Project Title:** C Subset Compiler in Python (just for fun and learning)
+# C Subset Compiler in Python (just for fun and learning)
 
 **Description:**
 
