@@ -8,7 +8,7 @@ This repository houses the development of a full-featured compiler implemented i
 
 - [x] Lexer
 - [ ] Parser (in progress)
-- [ ] Error Handling
+- [ ] Tests (in progress)
 
 **Key Features:**
 
