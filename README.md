@@ -7,9 +7,7 @@ This repository houses the development of a full-featured compiler implemented i
 **TODOs**
 
 - [x] Lexer
-- [ ] Parser
-- [ ] AST
-- [ ] Syntax Validator
+- [ ] Parser (in progress)
 - [ ] Error Handling
 
 **Key Features:**
