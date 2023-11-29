@@ -18,10 +18,6 @@ This repository houses the development of a full-featured compiler implemented i
 
 3. **Semantic Analysis:** The compiler performs semantic analysis to check for type compatibility, variable scoping, and other semantic rules to ensure the correctness of the source code.
 
-4. **Intermediate Code Generation:** It generates an intermediate representation of the code, which simplifies further optimizations and translation.
-
-5. **Code Optimization:** The compiler applies various optimization techniques to improve the efficiency and performance of the generated code.
-
 6. **Code Generation:** Finally, it translates the intermediate code into machine code for the target architecture, making it ready for execution.
 
 7. **Subset of C:** This compiler focuses on a well-defined subset of the C programming language, including essential features like variables, control structures, and functions.
